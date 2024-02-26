@@ -1,7 +1,7 @@
 use std::cell::RefCell;
 
 use hydro_deploy::{Deployment, HydroflowCrate};
-use hydroflow_plus_cli_integration::{DeployProcessSpec, DeployClusterSpec};
+use hydroflow_plus_cli_integration::{DeployClusterSpec, DeployProcessSpec};
 
 #[tokio::main]
 async fn main() {

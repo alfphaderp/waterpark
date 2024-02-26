@@ -5,7 +5,7 @@ use rand::Rng;
 
 /// Original spec: A leader broadcasts a value to be voted on, followers send in their votes, and
 /// the leader decides "yes" if all votes are "yes" votes.
-/// 
+///
 /// As it was unspecified what candidates to be voted on, how many followers, and how the followers
 /// vote, I had 5 followers vote randomly on the first 10 natural numbers.
 pub fn democracy<'a, D: Deploy<'a>>(
@@ -47,7 +47,7 @@ pub fn democracy<'a, D: Deploy<'a>>(
                         println!("Deciding no on {} (received no from follower/{})", n, id);
                     }
                 }
-            })
+            }),
         );
 }
 
