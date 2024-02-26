@@ -14,6 +14,9 @@ hydroflow_plus_cli_integration = { git = "https://github.com/hydro-project/hydro
 # this dependency should NOT be added to `flow_macro`
 flow_macro = { path = "../flow_macro" }
 
+# other dependencies
+rand = "0.8.5"
+
 [build-dependencies]
 stageleft_tool = { git = "https://github.com/hydro-project/hydroflow.git" }
 
