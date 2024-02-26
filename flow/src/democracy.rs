@@ -1,6 +1,8 @@
 use hydroflow_plus::*;
 use stageleft::*;
 
+use rand::Rng;
+
 /// Original spec: A leader broadcasts a value to be voted on, followers send in their votes, and
 /// the leader decides "yes" if all votes are "yes" votes.
 /// 
@@ -20,7 +22,7 @@ pub fn democracy<'a, D: Deploy<'a>>(
         .broadcast_bincode(&followers)
         // Followers decide how to vote
         .map(q!(|n| {
-            let vote: bool = rand::random(); // true means "yes", false means "no"
+            let vote: bool = rand::thread_rng().gen_range(0..10) > 0;
             println!("Voting {} on {}", if vote { "yes" } else { "no" }, n);
             (n, vote)
         }))
@@ -31,7 +33,7 @@ pub fn democracy<'a, D: Deploy<'a>>(
         // Decide for each candidate
         .fold(
             q!(|| [0; 10]), // stores -1 if anybody votes "no" and number of "yes" votes otherwise
-            q!(|votes: &mut [i32; 10], (_id, (n, vote))| {
+            q!(|votes: &mut [i32; 10], (id, (n, vote))| {
                 if vote {
                     if votes[n] >= 0 {
                         votes[n] += 1;
@@ -42,7 +44,7 @@ pub fn democracy<'a, D: Deploy<'a>>(
                 } else {
                     if votes[n] != -1 {
                         votes[n] = -1;
-                        println!("Deciding no on {}", n);
+                        println!("Deciding no on {} (received no from follower/{})", n, id);
                     }
                 }
             })
